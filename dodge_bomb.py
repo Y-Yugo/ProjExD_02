@@ -39,7 +39,7 @@ def main():
     kk_img = pg.transform.rotozoom(kk_img, 0, 2.0)
     kk_img_fin = pg.image.load("ex02/fig/8.png")
     kk_img_fin = pg.transform.rotozoom(kk_img_fin, 0, 2.3)
-    kk_rct = kk_img.get_rect() # 練習4
+    kk_rct = kk_img.get_rect()     # 練習4
 
     bb_img = pg.Surface((20, 20))
     pg.draw.circle(bb_img, (r, 0, 0), (10, 10), 10) # 追加機能５ rを変数にして色を変えたかった
@@ -47,10 +47,10 @@ def main():
     x, y = random.randint(0, 1600), random.randint(0, 900) # 練習2
     screen.blit(bb_img, [x, y]) 
     vx ,vy = +1, +1
-    bb_rct = bb_img.get_rect() # 練習３
-    bb_rct.center = x, y       # 練習2 爆弾の初期位置
-    kk_rct.center = 900, 400   # 練習4 こうかとんの初期位置
-    r -= 1 # 追加機能5　爆弾の色を変えたかった
+    bb_rct = bb_img.get_rect()      # 練習３
+    bb_rct.center = x, y            # 練習2 爆弾の初期位置
+    kk_rct.center = 900, 400        # 練習4 こうかとんの初期位置
+    r -= 1                          # 追加機能5　爆弾の色を変えたかった
     tmr = 0
 
     while True:
@@ -60,24 +60,24 @@ def main():
 
         tmr += 1
 
-        key_lst = pg.key.get_pressed() # 練習4
-        for k, mv in delta.items():    # 練習4 for文で辞書の中を回す
+        key_lst = pg.key.get_pressed()  # 練習4
+        for k, mv in delta.items():     # 練習4 for文で辞書の中を回す
             if key_lst[k]:
                kk_rct.move_ip(mv)       
         if check_bound(screen.get_rect(), kk_rct) != (True, True):
-            for k, mv in delta.items():    # 練習4 for文で辞書の中を回す
+            for k, mv in delta.items(): # 練習4 for文で辞書の中を回す
                 if key_lst[k]:
                     kk_rct.move_ip(-mv[0], -mv[1])
         screen.blit(bg_img, [0, 0])
-        screen.blit(kk_img, kk_rct) # 練習4
+        screen.blit(kk_img, kk_rct)     # 練習4
         bb_rct.move_ip(vx, vy)
         yoko, tate = check_bound(screen.get_rect(), bb_rct)
-        if not yoko: # 横方向にはみ出していたら
+        if not yoko:                    # 横方向にはみ出していたら
             vx *= -1
-        if not tate: # 縦方向にはみ出していたら
+        if not tate:                    # 縦方向にはみ出していたら
             vy *= -1
 
-        screen.blit(bb_img, bb_rct) # 練習3
+        screen.blit(bb_img, bb_rct)     # 練習3
 
         if kk_rct.colliderect(bb_rct):  # 練習6 接触判定
             end = tmr
