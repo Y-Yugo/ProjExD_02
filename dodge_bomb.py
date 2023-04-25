@@ -28,9 +28,9 @@ def check_bound(scr_rct: pg.Rect, obj_rct: pg.Rect) -> tuple[bool, bool]: # 練�
         tate = False
     return yoko, tate
 
-
-
+ 
 def main():
+    r = 255
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((1600, 900))
     clock = pg.time.Clock()
@@ -42,7 +42,7 @@ def main():
     kk_rct = kk_img.get_rect() # 練習4
 
     bb_img = pg.Surface((20, 20))
-    pg.draw.circle(bb_img, (255, 0, 0), (10, 10), 10) # 練習１
+    pg.draw.circle(bb_img, (r, 0, 0), (10, 10), 10) # 追加機能５ rを変数にして色を変えたかった
     bb_img.set_colorkey((0, 0, 0)) # 黒色を透過させる
     x, y = random.randint(0, 1600), random.randint(0, 900) # 練習2
     screen.blit(bb_img, [x, y]) 
@@ -50,7 +50,7 @@ def main():
     bb_rct = bb_img.get_rect() # 練習３
     bb_rct.center = x, y       # 練習2 爆弾の初期位置
     kk_rct.center = 900, 400   # 練習4 こうかとんの初期位置
-
+    r -= 1 # 追加機能5　爆弾の色を変えたかった
     tmr = 0
 
     while True:
@@ -76,12 +76,12 @@ def main():
             vx *= -1
         if not tate: # 縦方向にはみ出していたら
             vy *= -1
-        
+
         screen.blit(bb_img, bb_rct) # 練習3
 
         if kk_rct.colliderect(bb_rct):  # 練習6 接触判定
             end = tmr
-            timer = end + 1
+            timer = end + 1             #　追加機能3 未完
             kk_img = kk_img_fin
             vx, vy = 0, 0
             if timer <= tmr:
