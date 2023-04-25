@@ -1,5 +1,6 @@
 import random
 import sys
+import time
 
 import pygame as pg
 
@@ -27,6 +28,8 @@ def check_bound(scr_rct: pg.Rect, obj_rct: pg.Rect) -> tuple[bool, bool]: # 練�
         tate = False
     return yoko, tate
 
+
+
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((1600, 900))
@@ -34,6 +37,8 @@ def main():
     bg_img = pg.image.load("ex02/fig/pg_bg.jpg")
     kk_img = pg.image.load("ex02/fig/3.png")
     kk_img = pg.transform.rotozoom(kk_img, 0, 2.0)
+    kk_img_fin = pg.image.load("ex02/fig/8.png")
+    kk_img_fin = pg.transform.rotozoom(kk_img_fin, 0, 2.3)
     kk_rct = kk_img.get_rect() # 練習4
 
     bb_img = pg.Surface((20, 20))
@@ -51,7 +56,7 @@ def main():
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT: 
-                return 0
+                return
 
         tmr += 1
 
@@ -74,9 +79,13 @@ def main():
         
         screen.blit(bb_img, bb_rct) # 練習3
 
-        if kk_rct.colliderect(bb_rct): # 練習6 接触判定
-            return
-        
+        if kk_rct.colliderect(bb_rct):  # 練習6 接触判定
+            end = tmr
+            timer = end + 1
+            kk_img = kk_img_fin
+            vx, vy = 0, 0
+            if timer <= tmr:
+                return
 
         pg.display.update()
         clock.tick(1000)
