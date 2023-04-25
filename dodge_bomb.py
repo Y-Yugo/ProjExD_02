@@ -3,6 +3,13 @@ import sys
 
 import pygame as pg
 
+delta = {                      # 練習4以下こうかとんの移動量の指定
+        pg.K_UP: (0, -1),
+        pg.K_DOWN: (0, +1),
+        pg.K_LEFT: (-1, 0),
+        pg.K_RIGHT: (+1, 0),
+        }
+
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((1600, 900))
@@ -10,14 +17,18 @@ def main():
     bg_img = pg.image.load("ex02/fig/pg_bg.jpg")
     kk_img = pg.image.load("ex02/fig/3.png")
     kk_img = pg.transform.rotozoom(kk_img, 0, 2.0)
+    kk_rct = kk_img.get_rect() # 練習4
+
     bb_img = pg.Surface((20, 20))
-    pg.draw.circle(bb_img, (255, 0, 0), (10, 10), 10) #練習１
-    bb_img.set_colorkey((0, 0, 0))
-    x, y = random.randint(0, 1600), random.randint(0, 900) #練習2
-    screen.blit(bb_img, [x, y])
+    pg.draw.circle(bb_img, (255, 0, 0), (10, 10), 10) # 練習１
+    bb_img.set_colorkey((0, 0, 0)) # 黒色を透過させる
+    x, y = random.randint(0, 1600), random.randint(0, 900) # 練習2
+    screen.blit(bb_img, [x, y]) 
     vx ,vy = +1, +1
-    bb_rct = bb_img.get_rect()
-    bb_rct.center = x, y
+    bb_rct = bb_img.get_rect() # 練習３
+    bb_rct.center = x, y       # 練習2 爆弾の初期位置
+    kk_rct.center = 900, 400   # 練習4 こうかとんの初期位置
+
     tmr = 0
 
     while True:
@@ -26,10 +37,16 @@ def main():
                 return 0
 
         tmr += 1
+
+        key_lst = pg.key.get_pressed() # 練習4
+        for k, mv in delta.items():    # 練習4 for文で辞書の中を回す
+            if key_lst[k]:
+               kk_rct.move_ip(mv)       
+
         screen.blit(bg_img, [0, 0])
-        screen.blit(kk_img, [900, 400])
+        screen.blit(kk_img, kk_rct) # 練習4
         bb_rct.move_ip(vx, vy)
-        screen.blit(bb_img, bb_rct) #練習３
+        screen.blit(bb_img, bb_rct) # 練習3
         
 
         pg.display.update()
